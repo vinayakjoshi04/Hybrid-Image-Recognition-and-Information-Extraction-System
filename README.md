@@ -1,133 +1,250 @@
-# 🖼️ OCR + Image Captioning App
+# 🖼️ Hybrid Image Recognition & NLP Application
 
-A simple web app built with **Streamlit** (frontend) and **Flask** (backend) that can:
+A powerful Streamlit-based web application that combines OCR (Optical Character Recognition), AI-powered image captioning, translation, and text-to-speech capabilities into one seamless interface.
 
-* 🔍 **Read text from an image** (OCR)
-* 📝 **Generate a description of an image** (Captioning)
+![Python](https://img.shields.io/badge/python-v3.8+-blue.svg)
+![Streamlit](https://img.shields.io/badge/streamlit-v1.28+-red.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
 
-The backend uses:
+## ✨ Features
 
-* **Tesseract OCR** for extracting text.
-* **BLIP (Salesforce/blip-image-captioning-base)** for generating image captions.
+### 📝 OCR (Optical Character Recognition)
+- Extract text from images using Tesseract OCR
+- Advanced image preprocessing for improved accuracy
+- Support for multiple languages
+- Raw and cleaned text output
+- Downloadable text files
 
----
+### 📷 AI Image Captioning
+- Generate natural language descriptions of images
+- Powered by BLIP (Bootstrapping Language-Image Pre-training)
+- High-quality, context-aware captions
+- Downloadable caption files
 
-## 🚀 Features
+### 🌍 Multi-Language Translation
+- Translate extracted text or captions to 8+ languages
+- Support for: English, Hindi, French, German, Spanish, Chinese, Japanese, Arabic
+- Powered by Google Translate API
+- Downloadable translations
 
-* Upload an image and choose:
+### 🔊 Text-to-Speech
+- Convert text to natural-sounding speech
+- Multi-language audio generation
+- MP3 format output
+- In-browser audio playback
+- Downloadable audio files
 
-  * **"Read text from the image"** → extracts text (OCR).
-  * **"Describe the image"** → generates a caption (BLIP).
-* Download extracted text or generated description.
-* Runs fully on **CPU** (no GPU required).
-* Easy-to-use, non-technical friendly interface.
+## 🚀 Quick Start
 
----
+### Prerequisites
 
-## 📦 Installation
+- Python 3.8 or higher
+- Tesseract OCR (system installation required)
+- pip package manager
 
-Clone the repository:
+### Installation
 
-```bash
-git clone https://github.com/your-username/ocr-captioning-app.git
-cd ocr-captioning-app
-```
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/hybrid-image-nlp.git
+   cd hybrid-image-nlp
+   ```
 
-### 1️⃣ Backend (Flask API)
+2. **Install Tesseract OCR**
 
-Install dependencies:
+   **Windows:**
+   - Download installer from [GitHub Tesseract Releases](https://github.com/UB-Mannheim/tesseract/wiki)
+   - Install to default location: `C:\Program Files\Tesseract-OCR`
+   - Or set custom path via environment variable `TESSERACT_CMD`
 
-```bash
-pip install -r requirements.txt
-```
+   **macOS:**
+   ```bash
+   brew install tesseract
+   ```
 
-Run the backend:
+   **Linux (Ubuntu/Debian):**
+   ```bash
+   sudo apt-get update
+   sudo apt-get install tesseract-ocr
+   ```
 
-```bash
-python backend/app.py
-```
+3. **Install Python dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-This will start a Flask server at `http://127.0.0.1:5000`.
+4. **Run the application**
+   ```bash
+   streamlit run app.py
+   ```
 
-### 2️⃣ Frontend (Streamlit App)
-
-In another terminal, run:
-
-```bash
-streamlit run frontend/streamlit_app.py
-```
-
-This will launch the web app at `http://localhost:8501`.
-
----
-
-## 🖥️ Usage
-
-1. Open the Streamlit app in your browser.
-2. Upload an image (`.png`, `.jpg`, `.jpeg`, `.bmp`, `.tiff`, `.gif`).
-3. Choose one of the options:
-
-   * **Read text from the image** → Extracts text using OCR.
-   * **Describe the image** → Generates a caption.
-4. View the results and optionally download them as `.txt`.
-
----
+5. **Open your browser**
+   - The app will automatically open at `http://localhost:8501`
 
 ## 📁 Project Structure
 
 ```
-.
-├── backend/
-│   ├── app.py              # Flask API
-│   ├── ocr.py              # OCR helper
-│   ├── captioning.py       # BLIP captioning helper
-│   └── requirements.txt
-├── frontend/
-│   └── streamlit_app.py    # Streamlit frontend
-└── README.md
+hybrid-image-nlp/
+│
+├── app.py                    # Main Streamlit application
+├── ocr_utils.py             # OCR functionality with preprocessing
+├── image_captioning.py      # BLIP image captioning module
+├── nlp_utils.py             # Translation and TTS utilities
+├── requirements.txt         # Python dependencies
+├── README.md               # Project documentation
+└── .gitignore              # Git ignore file
 ```
 
----
+## 🎯 Usage
 
-## ⚙️ Requirements
+### 1. Extract Text from Images (OCR)
 
-* Python 3.8+
-* Flask
-* Streamlit
-* Transformers
-* Torch
-* Pillow
-* Tesseract OCR installed locally
+1. Select "Extract Text from Image 📝" from the sidebar
+2. Upload an image (PNG, JPG, JPEG, BMP, TIFF, GIF)
+3. Click "🚀 Run Task"
+4. View raw and cleaned OCR output
+5. Download the extracted text
 
-On Ubuntu/Debian:
+### 2. Generate Image Captions
 
+1. Select "Describe the Image 📷" from the sidebar
+2. Upload an image
+3. Click "🚀 Run Task"
+4. View the AI-generated caption
+5. Download the caption
+
+### 3. Translate Text
+
+1. After extracting text or generating a caption
+2. Select target language from the sidebar
+3. Click "🌐 Translate Text"
+4. View and download the translation
+
+### 4. Convert to Speech
+
+1. After extracting text or translating
+2. Select target language for audio
+3. Click "🔊 Convert to Speech"
+4. Listen to the audio in-browser
+5. Download the MP3 file
+
+## 🛠️ Technical Details
+
+### Core Technologies
+
+- **Streamlit**: Web application framework
+- **Tesseract OCR**: Text extraction engine
+- **OpenCV**: Image preprocessing
+- **BLIP**: Image captioning model (Salesforce)
+- **Transformers**: Hugging Face library for AI models
+- **Google Translate API**: Translation service
+- **gTTS**: Google Text-to-Speech
+
+### Image Preprocessing Pipeline
+
+1. Grayscale conversion
+2. Noise reduction (Non-local Means Denoising)
+3. Adaptive thresholding (Otsu's method)
+4. Median blur filtering
+5. Morphological operations
+
+### Supported Languages
+
+| Language | Code | Translation | TTS |
+|----------|------|-------------|-----|
+| English | en | ✅ | ✅ |
+| Hindi | hi | ✅ | ✅ |
+| French | fr | ✅ | ✅ |
+| German | de | ✅ | ✅ |
+| Spanish | es | ✅ | ✅ |
+| Chinese | zh-cn | ✅ | ✅ |
+| Japanese | ja | ✅ | ✅ |
+| Arabic | ar | ✅ | ✅ |
+
+## 📸 Supported Image Formats
+
+- PNG (.png)
+- JPEG (.jpg, .jpeg)
+- BMP (.bmp)
+- TIFF (.tiff)
+- GIF (.gif)
+
+## ⚙️ Configuration
+
+### Environment Variables
+
+Set `TESSERACT_CMD` to specify custom Tesseract installation path:
+
+**Windows:**
 ```bash
-sudo apt-get install tesseract-ocr
+set TESSERACT_CMD=C:\Custom\Path\tesseract.exe
 ```
 
-On Windows, download [Tesseract OCR](https://github.com/UB-Mannheim/tesseract/wiki).
+**Linux/macOS:**
+```bash
+export TESSERACT_CMD=/usr/local/bin/tesseract
+```
 
----
+### Model Configuration
 
-## 📸 Demo
+The BLIP model is automatically downloaded on first run. Default settings:
+- Model: `Salesforce/blip-image-captioning-base`
+- Device: CPU (can be modified for GPU support)
+- Max Caption Length: 60 tokens
+- Beam Search: 3 beams
 
-* **OCR Example**
-  Input: ![example-image](docs/sample_ocr.png)
-  Output: `"Hello World"`
+## 🐛 Troubleshooting
 
-* **Captioning Example**
-  Input: ![example-image](docs/sample_caption.png)
-  Output: `"A cat sitting on a wooden chair."`
+### Common Issues
 
----
+**1. Tesseract not found error**
+- Ensure Tesseract is installed and in system PATH
+- Set `TESSERACT_CMD` environment variable
+- Verify installation: `tesseract --version`
+
+**2. Model download fails**
+- Check internet connection
+- Ensure sufficient disk space (~1GB for models)
+- Try manually downloading models from Hugging Face
+
+**3. Translation errors**
+- `googletrans` may need specific version: `pip install googletrans==4.0.0rc1`
+- Check internet connectivity
+- Try alternative translation services if persistent
+
+**4. Memory issues**
+- BLIP model requires ~2GB RAM
+- Close other applications
+- Consider using GPU for better performance
 
 ## 🤝 Contributing
 
-Pull requests are welcome!
-For major changes, please open an issue first to discuss what you’d like to change.
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [Tesseract OCR](https://github.com/tesseract-ocr/tesseract) - Google's OCR engine
+- [Salesforce BLIP](https://github.com/salesforce/BLIP) - Image captioning model
+- [Streamlit](https://streamlit.io/) - Web app framework
+- [Hugging Face](https://huggingface.co/) - Transformer models
+- [gTTS](https://github.com/pndurette/gTTS) - Text-to-Speech library
+
+## 📧 Contact
+
+Your Name - [@yourtwitter](https://twitter.com/yourtwitter) - your.email@example.com
+
+Project Link: [https://github.com/yourusername/hybrid-image-nlp](https://github.com/yourusername/hybrid-image-nlp)
 
 ---
 
-## 📜 License
-
-This project is licensed under the MIT License.
+⭐ If you find this project useful, please consider giving it a star on GitHub!
