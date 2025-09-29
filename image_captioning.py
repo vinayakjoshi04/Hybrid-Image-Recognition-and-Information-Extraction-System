@@ -5,7 +5,6 @@ Model is loaded lazily on first call to keep import/startup fast.
 """
 
 from PIL import Image
-import torch
 from typing import Dict
 
 # globals filled by _load_model()
