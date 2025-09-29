@@ -6,7 +6,6 @@ from ocr_utils import run_ocr
 from image_captioning import run_captioning
 from nlp_utils import translate_text, text_to_speech
 
-
 st.set_page_config(page_title="Hybrid OCR & Captioning", page_icon="🖼️", layout="wide")
 
 st.markdown(
@@ -20,7 +19,6 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-
 if "output_text" not in st.session_state:
     st.session_state.output_text = ""
 
@@ -29,7 +27,6 @@ if "translated_text" not in st.session_state:
 
 if "audio_path" not in st.session_state:
     st.session_state.audio_path = None
-
 
 with st.sidebar:
     st.header("⚙️ Options")
@@ -41,11 +38,10 @@ with st.sidebar:
 
     target_lang = st.selectbox(
         "🌍 Select target language",
-        ["en", "hi", "fr", "de", "es", "zh-cn", "ja", "ar"],
+        ["en", "fr", "de", "es", "zh-cn", "ja", "ar"],
         index=0,
         key="lang_select",
     )
-
 
 uploaded_file = st.file_uploader("📤 Upload an image", type=["png", "jpg", "jpeg", "bmp", "tiff", "gif"])
 
@@ -53,7 +49,6 @@ if uploaded_file:
     st.image(uploaded_file, caption="📷 Uploaded Image", use_container_width=True)
 
     if st.button("🚀 Run Task", use_container_width=True):
-
         with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(uploaded_file.name)[1]) as tmp:
             tmp.write(uploaded_file.getvalue())
             tmp_path = tmp.name
@@ -62,7 +57,7 @@ if uploaded_file:
             with st.spinner("⏳ Processing..."):
                 if task == "ocr":
                     res = run_ocr(tmp_path)
-                    st.session_state.output_text = res.get("processed_text", "")
+                    st.session_state.output_text = res.get("extracted_text", "")
                 else:
                     res = run_captioning(tmp_path)
                     st.session_state.output_text = res.get("caption", "")
@@ -77,25 +72,14 @@ if uploaded_file:
 
             if res.get("error"):
                 st.error(res["error"])
-            elif res.get("warning"):
-                st.warning(res["warning"])
-                if task == "ocr":
-                    st.subheader("🔍 Raw OCR Output")
-                    st.code(res.get("raw_text", ""), language=None)
-                    if res.get("raw_text"):
-                        st.download_button("⬇️ Download Text", res.get("raw_text", ""), file_name="ocr_text.txt")
             else:
                 if task == "ocr":
-                    col1, col2 = st.columns(2)
-                    with col1:
-                        st.subheader("🔍 Raw OCR Output")
-                        st.code(res.get("raw_text", ""), language=None)
-                    with col2:
-                        st.subheader("✨ Cleaned-up Text")
-                        st.code(st.session_state.output_text, language=None)
-
+                    st.subheader("🔍 Extracted Text")
                     if st.session_state.output_text:
+                        st.code(st.session_state.output_text, language=None)
                         st.download_button("⬇️ Download Text", st.session_state.output_text, file_name="ocr_text.txt")
+                    else:
+                        st.info("No text detected.")
                 else:
                     st.subheader("📝 Image Description")
                     if st.session_state.output_text:
@@ -106,8 +90,6 @@ if uploaded_file:
         finally:
             if os.path.exists(tmp_path):
                 os.remove(tmp_path)
-
-
 
 if st.session_state.output_text:
     st.markdown("---")
@@ -129,7 +111,6 @@ if st.session_state.output_text:
     with col2:
         if st.button("🔊 Convert to Speech", use_container_width=True):
             text_for_tts = st.session_state.translated_text or st.session_state.output_text
-            
 
             if st.session_state.audio_path and os.path.exists(st.session_state.audio_path):
                 try:
