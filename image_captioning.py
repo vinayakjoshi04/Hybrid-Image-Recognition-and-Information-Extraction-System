@@ -4,10 +4,9 @@ BLIP Image Captioning wrapper.
 from PIL import Image
 from typing import Dict
 
-# Global vars
 _MODEL = None
 _PROCESSOR = None
-_DEVICE = "cpu"  # force CPU only
+_DEVICE = "cpu"
 
 
 def _load_model():

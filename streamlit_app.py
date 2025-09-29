@@ -7,9 +7,6 @@ from image_captioning import run_captioning
 from nlp_utils import translate_text, text_to_speech
 
 
-# -------------------------
-# Streamlit App Config
-# -------------------------
 st.set_page_config(page_title="Hybrid OCR & Captioning", page_icon="🖼️", layout="wide")
 
 st.markdown(
@@ -23,9 +20,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# -------------------------
-# Initialize session_state
-# -------------------------
+
 if "output_text" not in st.session_state:
     st.session_state.output_text = ""
 
@@ -36,9 +31,6 @@ if "audio_path" not in st.session_state:
     st.session_state.audio_path = None
 
 
-# -------------------------
-# Layout: Sidebar for Task Selection
-# -------------------------
 with st.sidebar:
     st.header("⚙️ Options")
     task_label = st.radio(
@@ -54,16 +46,14 @@ with st.sidebar:
         key="lang_select",
     )
 
-# -------------------------
-# File Upload
-# -------------------------
+
 uploaded_file = st.file_uploader("📤 Upload an image", type=["png", "jpg", "jpeg", "bmp", "tiff", "gif"])
 
 if uploaded_file:
     st.image(uploaded_file, caption="📷 Uploaded Image", use_container_width=True)
 
     if st.button("🚀 Run Task", use_container_width=True):
-        # Save file temporarily
+
         with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(uploaded_file.name)[1]) as tmp:
             tmp.write(uploaded_file.getvalue())
             tmp_path = tmp.name
@@ -76,9 +66,8 @@ if uploaded_file:
                 else:
                     res = run_captioning(tmp_path)
                     st.session_state.output_text = res.get("caption", "")
-                st.session_state.translated_text = ""  # reset old translations
+                st.session_state.translated_text = ""
                 
-                # Clean up old audio file if exists
                 if st.session_state.audio_path and os.path.exists(st.session_state.audio_path):
                     try:
                         os.remove(st.session_state.audio_path)
@@ -86,7 +75,6 @@ if uploaded_file:
                         pass
                 st.session_state.audio_path = None
 
-            # Display results
             if res.get("error"):
                 st.error(res["error"])
             elif res.get("warning"):
@@ -120,9 +108,7 @@ if uploaded_file:
                 os.remove(tmp_path)
 
 
-# -------------------------
-# NLP Features
-# -------------------------
+
 if st.session_state.output_text:
     st.markdown("---")
     st.subheader("🌍 Translate & 🔊 Text-to-Speech")
@@ -144,7 +130,7 @@ if st.session_state.output_text:
         if st.button("🔊 Convert to Speech", use_container_width=True):
             text_for_tts = st.session_state.translated_text or st.session_state.output_text
             
-            # Clean up old audio file
+
             if st.session_state.audio_path and os.path.exists(st.session_state.audio_path):
                 try:
                     os.remove(st.session_state.audio_path)
