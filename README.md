@@ -6,6 +6,8 @@ A powerful Streamlit-based web application that combines OCR (Optical Character 
 ![Streamlit](https://img.shields.io/badge/streamlit-v1.28+-red.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
+https://hybrid-image-recognition-and-information-extraction-system-6xd.streamlit.app/
+
 ## ✨ Features
 
 ### 📝 OCR (Optical Character Recognition)
