@@ -1,0 +1,18 @@
+# --- Web UI ---
+streamlit
+
+# --- OCR (Tesseract) ---
+pytesseract
+Pillow
+
+# --- Image Captioning (Hugging Face BLIP) ---
+torch
+transformers
+accelerate
+
+# --- NLP: Translation + Text-to-Speech ---
+googletrans==4.0.0rc1
+gTTS
+
+# --- Utilities ---
+opencv-python
