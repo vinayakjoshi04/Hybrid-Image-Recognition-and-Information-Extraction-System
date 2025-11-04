@@ -1,8 +1,8 @@
 """
-NLP utilities: Translation (googletrans) + Text-to-Speech (gTTS).
+NLP utilities: Translation (Deep Translator) + Text-to-Speech (gTTS).
 
 This module provides:
-1. Text translation into different languages using Google Translate API (`googletrans`).
+1. Text translation into different languages using Deep Translator (Google Translate backend).
 2. Text-to-Speech conversion using Google Text-to-Speech (`gTTS`).
 """
 
@@ -11,7 +11,7 @@ from typing import Dict
 
 def translate_text(text: str, target_lang: str = "en") -> Dict[str, str]:
     """
-    Translate input text into the specified target language.
+    Translate input text into the specified target language using Deep Translator.
 
     Args:
         text (str): Input text to be translated.
@@ -23,23 +23,19 @@ def translate_text(text: str, target_lang: str = "en") -> Dict[str, str]:
             - "error": Error message if translation fails.
     """
 
-    # Check if the text is empty or just spaces -> no translation needed
     if not text or not text.strip():
-        return {"translated_text": ""}
-    
+        return {"translated_text": "", "error": "Empty text provided"}
+
     try:
-        # Import translator from googletrans dynamically
-        from googletrans import Translator
-        translator = Translator()
+        # Import from deep-translator
+        from deep_translator import GoogleTranslator
 
         # Perform translation
-        translated = translator.translate(text, dest=target_lang)
+        translated_text = GoogleTranslator(source="auto", target=target_lang).translate(text)
 
-        # Return translated text in dictionary format
-        return {"translated_text": translated.text}
-    
+        return {"translated_text": translated_text}
+
     except Exception as e:
-        # Handle errors (e.g., no internet, unsupported language)
         return {"translated_text": "", "error": f"Translation failed: {e}"}
 
 
@@ -58,23 +54,16 @@ def text_to_speech(text: str, lang: str = "en", out_path: str = "output.mp3") ->
             - "error": Error message if TTS fails.
     """
 
-    # Validate: input text must not be empty
     if not text or not text.strip():
         return {"audio_path": "", "error": "No text provided for TTS"}
-    
+
     try:
-        # Import Google Text-to-Speech library
         from gtts import gTTS
 
-        # Initialize gTTS object with provided text and language
         tts = gTTS(text=text, lang=lang)
-
-        # Save generated speech to MP3 file
         tts.save(out_path)
 
-        # Return path of saved audio file
         return {"audio_path": out_path}
-    
+
     except Exception as e:
-        # Handle errors (e.g., invalid language, gTTS not installed, network issue)
         return {"audio_path": "", "error": f"TTS failed: {e}"}
